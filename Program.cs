@@ -17,14 +17,15 @@ namespace HomeWorkBattle
             float fireBall = 50;
             float iceArrow = 30;
             float electricWhip = 20;
-            Random randomBattle = new Random();
+            Random random = new Random();
             Random randomDamageBoss = new Random();
             Random randomMagic = new Random();
             int randomMagicMin = 20;
             int randomMagicMax = 41; 
             float amplifyMagic;
             string inputPlayer;
-            int damageBoss;
+            float damageBoss;
+            float damagePlayer;
             int damageBossMin = 30;
             int damageBossMax = 50;
             Random randomPercentageCold = new Random();
@@ -61,22 +62,24 @@ namespace HomeWorkBattle
                     }
 
                     Console.WriteLine("Произносите заклинания и на противника летит огненый шар!");
-                    int battle = randomBattle.Next(0, 2);
+                    int battle = random.Next(0, 2);
                     if (battle == 0)
                     {
-                        healthBoss -=fireBall + amplifyMagic;
-                        Console.WriteLine($"{namePlayer} нанес урон {nameBoss} {fireBall + amplifyMagic} единиц урона");
+                        damagePlayer = fireBall + amplifyMagic;
+                        healthBoss -= damagePlayer;                        
+                        Console.WriteLine($"{namePlayer} нанес урон {nameBoss} {damagePlayer} единиц урона");
                         damageBoss = randomDamageBoss.Next(damageBossMin, damageBossMax);
                         healthPlayer -= damageBoss;
                         Console.WriteLine($"{nameBoss} наносит ответный урон {damageBoss}");
                     }
                     else
                     {
-                        healthBoss -= fireBall + amplifyMagic;
-                        healthPlayer -= fireBall + amplifyMagic;
-                        Console.WriteLine($"{namePlayer} нанес урон {fireBall + amplifyMagic} единиц урона, " +
+                        float damageFireBAll = fireBall + amplifyMagic;
+                        healthBoss -= damageFireBAll;
+                        healthPlayer -= damageFireBAll;
+                        Console.WriteLine($"{namePlayer} нанес урон {damageFireBAll} единиц урона, " +
                             $"но огонь зацепил и вас!" +
-                            $"вы также получили {fireBall + amplifyMagic} единиц урона");
+                            $"вы также получили {damageFireBAll} единиц урона");
                     }
 
                 }
@@ -95,21 +98,24 @@ namespace HomeWorkBattle
                     }
 
                     Console.WriteLine("Произносите заклинания и на противника летит ледяная стрела!");
-                    int battle = randomBattle.Next(0, 2);
+                    int battle = random.Next(0, 2);
                     if (battle == 0)
                     {
-                        healthBoss -= iceArrow + amplifyMagic;
-                        Console.WriteLine($"{namePlayer} нанёс урон {nameBoss} {iceArrow + amplifyMagic} единиц урона");
+                        damagePlayer = iceArrow + amplifyMagic;
+                        healthBoss -= damagePlayer;
+                        Console.WriteLine($"{namePlayer} нанёс урон {nameBoss} {damagePlayer} единиц урона");
                         Console.WriteLine($"{nameBoss} холодно, противник замедлился и вы увернулись от урона. ");
                     }
                     else
                     {
-                        healthBoss -= iceArrow + amplifyMagic;
+                        damagePlayer = iceArrow + amplifyMagic;
+                        healthBoss -= damagePlayer;
                         int percentageCold = randomPercentageCold.Next(percentageColdMin, percentageColdMax);
-                        healthPlayer -= (iceArrow + amplifyMagic) * (percentageCold / conversionInterest);
-                        Console.WriteLine($"{namePlayer} нанес урон {nameBoss} {iceArrow + amplifyMagic} единиц урона, " +
+                        float damagIceArrowFoPlayer = damagePlayer * (percentageCold / conversionInterest);
+                        healthPlayer -= damagIceArrowFoPlayer;
+                        Console.WriteLine($"{namePlayer} нанес урон {nameBoss} {damagePlayer} единиц урона, " +
                             $"но холод зацепил и  вас!" +
-                            $"нанеся  {(iceArrow + amplifyMagic) * (percentageCold / conversionInterest)} единиц урона");
+                            $"нанеся  {damagIceArrowFoPlayer} единиц урона");
                         damageBoss = randomDamageBoss.Next(damageBossMin, damageBossMax);
                         Console.WriteLine($"{nameBoss} наносит по {namePlayer} ответный урон {damageBoss} единиц урона");
                     }
@@ -129,12 +135,13 @@ namespace HomeWorkBattle
                         amplifyMagic = 0;
                     }
                     Console.WriteLine("Произносите заклинания и бьёте противника электрическим кнутом.");
-                    int battle = randomBattle.Next(0, 2);
+                    int battle = random.Next(0, 2);
                     if (battle == 0)
                     {
-                        healthBoss -= electricWhip + amplifyMagic;
-                        Console.WriteLine($"{namePlayer} наносит {electricWhip+amplifyMagic} урона!");
-                        battle = randomBattle.Next(0, 2);
+                        damagePlayer = electricWhip + amplifyMagic;
+                        healthBoss -= damagePlayer;
+                        Console.WriteLine($"{namePlayer} наносит {damagePlayer} урона!");
+                        battle = random.Next(0, 2);
                         if(battle == 0)
                         {
                             Console.WriteLine($"{nameBoss} ослеплен и не может нанести урон {namePlayer}");
@@ -149,7 +156,7 @@ namespace HomeWorkBattle
                     else
                     {
                         Console.WriteLine($"{nameBoss} увернулся и готов нанести ответный удар!");
-                        battle = randomBattle.Next(0, 2);
+                        battle = random.Next(0, 2);
                         if (battle == 0)
                         {
                             damageBoss = randomDamageBoss.Next(damageBossMin, damageBossMax);
@@ -179,3 +186,4 @@ namespace HomeWorkBattle
         }
     }
 }
+
